@@ -125,6 +125,11 @@ export default {
       border-radius: 5px;
       background: white;
 
+      @media(max-width: 768px) {
+        width: 100%;
+        left: 0px; 
+      }
+
       .related-product-modal__modal__product {
         position: absolute;
         top: 0px;
@@ -134,7 +139,7 @@ export default {
         overflow: scroll;
         padding: 50px;
 
-        @media(max-width: 960px) {
+        @media(max-width: 768px) {
           padding: 20px;
           padding-top: 50px;
         }
@@ -151,6 +156,11 @@ export default {
           right: 0px;
           top: -30px;
           font-weight: bold;
+
+          @media(max-width: 768px) {
+            padding-left: 15px;
+            padding-right: 15px;
+          }
         }
       }
 
