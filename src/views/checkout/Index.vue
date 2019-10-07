@@ -62,8 +62,8 @@
                 <h5 class="">Payment information</h5>
               </div>
               <div class="col-6 text-right">
-                <img class="ml-3" style="height:30px;" src="/icons/ssl.svg" />
-                <img class="ml-3" style="height:30px;" src="/icons/norton.png" />
+                <img class="ml-3" style="height:30px;" :src="require('@/assets/icons/ssl.svg')" />
+                <img class="ml-3" style="height:30px;" :src="require('@/assets/icons/norton.png')" />
               </div>
 
             </div>
@@ -90,10 +90,10 @@
                         </h2>
                       </div>
                       <div class="col-md-6 text-right pt-2">
-                        <img style="height:20px;" class="mr-2" src="/icons/visa.svg" />
-                        <img style="height:20px;" class="mr-2" src="/icons/amex.svg" />
-                        <img style="height:20px;" class="mr-2" src="/icons/master.svg" />
-                        <img style="height:20px;" class="mr-2" src="/icons/discover.svg" />
+                        <img style="height:20px;" class="mr-2" :src="require('@/assets/icons/visa.svg')" />
+                        <img style="height:20px;" class="mr-2" :src="require('@/assets/icons/amex.svg')" />
+                        <img style="height:20px;" class="mr-2" :src="require('@/assets/icons/master.svg')" />
+                        <img style="height:20px;" class="mr-2" :src="require('@/assets/icons/discover.svg')" />
                       </div>
                     </div>
 
@@ -117,7 +117,7 @@
                         </h2>
                       </div>
                       <div class="col-md-6 text-right pt-2">
-                        <img style="height: 20px" src="/icons/paypal.png" />
+                        <img style="height: 20px" :src="require('@/assets/icons/paypal.png')" />
                       </div>
                     </div>
                   </div>

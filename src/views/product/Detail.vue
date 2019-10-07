@@ -41,30 +41,38 @@
               <!--<Timer />-->
               <!--<InStock :product-id="activeVariantId" min="2" max="15" />-->
             </div>
+
+            <div v-if="activeVariant.attributes.compare_at_price">
+              <span class="price-tag pr-3">{{ $hiwebBase.currency.formatted((activeVariant.attributes.compare_at_price - activeVariant.attributes.price) * qty) }} Saved</span>
+            </div>
+
           </div>
           
           <div v-else>
             <strong class="text-danger" style="font-size: 32px; display: inline-block; font-weight: 700;">
-              {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price) }}
+              {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price * qty) }}
             </strong>
             <template v-if="productJsonApi.document.data.attributes.min_price_compare_at">
               <span class="ml-2 product-detail__compare-at-price">
-                {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price_compare_at) }}
+                {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price_compare_at * qty) }}
               </span>
+              <div>
+                <span class="price-tag pr-3">{{ $hiwebBase.currency.formatted((productJsonApi.document.data.attributes.min_price_compare_at - productJsonApi.document.data.attributes.min_price) * qty) }} Saved</span>
+              </div>
             </template>
           </div>
 
           <!-- Options -->
           <template v-for="i in 3">
-            <div class="mt-4" v-if="productJsonApi.document.data.attributes['option' + i]">
+            <div class="mt-3" v-if="productJsonApi.document.data.attributes['option' + i]">
               <Option :option="productJsonApi.document.data.attributes['option' + i]" :index="i" :variants="productJsonApi.findRelationshipResources(productJsonApi.document.data, 'variants')" />
             </div>
           </template>
 
           <!-- Qty -->
-          <div class="product-detail__qty mt-4 pt-2">
+          <div class="product-detail__qty mt-3 mb-4">
 
-            <div class="mb-3">
+            <div class="mb-2">
               <strong >Qty:</strong> <span class="ml-2 text-muted">{{ qty }}</span>
             </div>
             
@@ -88,6 +96,9 @@
             <span v-if="!addingToCart" class="btn-inner--text">Buy It Now</span>
             <span v-else class="btn-inner--text">Adding to cart</span>
           </button>
+
+          <!-- Badge -->
+          <img :src="require('@/assets/icons/trusted-badge.webp')" class="mt-4" />
 
           <!-- Product content -->
           <hr style="margin-top: 2rem;" />
