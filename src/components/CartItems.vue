@@ -8,7 +8,8 @@
     <template v-else>
 
       <div style="width: 100%" v-if="!cartItemsJsonApi || !cart.data.relationships.cart_items.data.length">
-        <p class="text-center">Your cart is empty!</p>
+        <loader v-if="!cartItemsJsonApi" />
+        <p class="text-center" v-else>Your cart is empty!</p>
       </div>
 
       <div v-else v-for="cartItem, index in cartItemsJsonApi.document.data" class="card mb-3" style="width: 100%">
@@ -63,10 +64,6 @@
         </div>
 
       </div>
-
-      <div class="mt-3">
-        <RelatedProducts :search="searchString" size="4" limit="9" />
-      </div>
       
     </template>
 
@@ -76,13 +73,9 @@
 <script type="text/javascript">
 import base from 'lite-store-vue-base';
 
-import RelatedProducts from '@/components/RelatedProducts';
-
 export default {
 
   mixins: [base.mixins.components.cartItems],
-
-  components: { RelatedProducts }
 
 }
 </script>

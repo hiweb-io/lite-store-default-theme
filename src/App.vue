@@ -1,13 +1,18 @@
 <template>
   <div id="app">
 
-    <Navbar />
+    <template v-if="$route.name !== 'checkout.index'">
+      <Navbar />
 
-    <div class="container pt-5">
-      <router-view/>
-    </div>
+      <div class="container pt-5">
+        <router-view/>
+      </div>
 
-    <Footer />
+      <Footer />
+    </template>
+    <template v-else>
+      <router-view />
+    </template>
 
   </div>
 </template>

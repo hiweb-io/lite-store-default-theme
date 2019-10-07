@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 // Import view components
 import Cart from '@/views/cart/Index';
+import Checkout from '@/views/checkout/Index';
 import CollectionCollection from '@/views/collection/Collection';
 import CollectionDetail from '@/views/collection/Detail';
 import Home from '@/views/home/Index';
@@ -30,6 +31,7 @@ export default new Router({
   routes: [
     ...routes.routes({
       'cart.index': Cart,
+      'checkout.index': Checkout,
       'collection.collection': CollectionCollection,
       'collection.detail': CollectionDetail,
       'home.index': Home,

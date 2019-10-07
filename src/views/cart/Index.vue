@@ -38,7 +38,7 @@
             </p>
 
             <div style="width: 100%; position: relative; padding-top: 20px;">
-              <a v-if="!isLoadingCart" class="btn btn-lg btn-primary btn-block" href="/checkout" style="margin-top: 0px; font-weight: 700; position: absolute; padding-left: 0px; padding-right: 0px; width: 100%; height: 55px; padding-top: 10px;">Proceed to Checkout</a>
+              <router-link v-if="!isLoadingCart" class="btn btn-lg btn-primary btn-block" :to="{ name: 'checkout.index' }" style="margin-top: 0px; font-weight: 700; position: absolute; padding-left: 0px; padding-right: 0px; width: 100%; height: 55px; padding-top: 10px;">Proceed to Checkout</router-link>
             </div>
               
 
@@ -46,8 +46,12 @@
         </div>
 
       </div>
+      
+      <CartItemRelatedProducts />
 
     </div>
+
+
   </div>
 </template>
 
@@ -55,12 +59,13 @@
 import base from 'lite-store-vue-base';
 
 import CartItems from '@/components/CartItems';
+import CartItemRelatedProducts from '@/components/CartItemRelatedProducts';
 
 export default {
 
   mixins: [base.mixins.cart.index],
 
-  components: { CartItems },
+  components: { CartItems, CartItemRelatedProducts },
 
   data() {
 
