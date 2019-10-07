@@ -45,8 +45,13 @@
           
           <div v-else>
             <strong class="text-danger" style="font-size: 32px; display: inline-block; font-weight: 700;">
-              From {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price) }}
+              {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price) }}
             </strong>
+            <template v-if="productJsonApi.document.data.attributes.min_price_compare_at">
+              <span class="ml-2 product-detail__compare-at-price">
+                {{ $hiwebBase.currency.formatted(productJsonApi.document.data.attributes.min_price_compare_at) }}
+              </span>
+            </template>
           </div>
 
           <!-- Options -->
