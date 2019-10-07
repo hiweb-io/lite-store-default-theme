@@ -31,7 +31,19 @@
         <div class="related-product-modal" v-if="activeProduct">
           <div class="related-product-modal__fog" @click="activeProduct = null"></div>
           <div class="related-product-modal__modal">
-            <ProductModal :slug="activeProduct.attributes.slug" />
+            <div class="related-product-modal__modal__navigation">
+              <div class="row">
+                <div class="col-6">
+                  <router-link :to="{ name: 'product.detail', params: { slug: activeProduct.attributes.slug } }" style="color: inherit">Go to product page</router-link>
+                </div>
+                <div class="col-6 text-right">
+                  <span style="cursor: pointer;" @click="close">Close</span>
+                </div>
+              </div>
+            </div>
+            <div class="related-product-modal__modal__product">
+              <ProductModal :slug="activeProduct.attributes.slug" />
+            </div>
           </div>
         </div>
 
@@ -112,14 +124,38 @@ export default {
       top: 10%;
       border-radius: 5px;
       background: white;
-      padding: 50px;
-      overflow: scroll;
 
-      @media(max-width: 960px) {
-        padding: 20px;
-        padding-top: 50px;
+      .related-product-modal__modal__product {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        left: 0px;
+        height: 100%;
+        overflow: scroll;
+        padding: 50px;
+
+        @media(max-width: 960px) {
+          padding: 20px;
+          padding-top: 50px;
+        }
       }
+
+      .related-product-modal__modal__navigation {
+        position: relative;
+        width: 100%;
+
+        .row {
+          position: absolute;
+          color: white;
+          left: 0px;
+          right: 0px;
+          top: -30px;
+          font-weight: bold;
+        }
+      }
+
     }
+
   }
 }
 </style>
