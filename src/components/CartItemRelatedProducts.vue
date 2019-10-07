@@ -6,7 +6,7 @@
       </div>
 
       <div v-else class="col-12 mt-5">
-        <RelatedProducts :search="searchString" :size="size" :limit="limit" />      
+        <RelatedProducts :search="searchString" :excludeIds="excludeSearchIds" :size="size" :limit="limit" />      
       </div>
     </div>
   </div>
@@ -29,6 +29,14 @@ export default {
       type: String,
       default: '8'
     }
+
+  },
+
+  data() {
+
+    return {
+      loadNew: false
+    };
 
   },
 
