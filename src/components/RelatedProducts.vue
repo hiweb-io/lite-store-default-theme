@@ -7,7 +7,7 @@
 
         <div :class="'col-6 mb-3 col-lg-' + size" v-for="product in relatedProductsJsonApi.document.data">
 
-          <div class="product-box mb-3" @click="activeProduct = product">
+          <div v-if="useModal" class="product-box mb-3" @click="activeProduct = product">
             <div class="card">
               <div class="product-box__preview">
                 <img :src="$hiwebBase.image.resize(product.attributes.preview, 360, true)" class="card-img-top" :alt="product.attributes.title">
@@ -18,6 +18,8 @@
               </div>
             </div>
           </div>
+
+          <product-box v-else :product="product" :variant="relatedProductsJsonApi.findRelationshipResource(product, 'variants')" :image="relatedProductsJsonApi.findRelationshipResource(product, 'image')" />
 
         </div>
 
@@ -52,6 +54,10 @@ export default {
     size: {
       type: String,
       default: '3'
+    },
+    useModal: {
+      type: Boolean,
+      default: true
     }
   },
 

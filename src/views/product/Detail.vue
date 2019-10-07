@@ -122,7 +122,7 @@
 
         <!-- Related products -->
         <div class="col-12" style="margin-top: 100px;" v-if="searchString">
-          <RelatedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" />
+          <RelatedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :use-modal="false" />
         </div>
 
         <!-- Product reviews -->
