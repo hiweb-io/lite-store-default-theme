@@ -106,7 +106,7 @@ export default {
   .related-product-modal {
 
     .related-product-modal__fog {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.8);
       position: fixed;
       top: 0px;
       left: 0px;
