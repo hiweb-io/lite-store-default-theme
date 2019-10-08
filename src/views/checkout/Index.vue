@@ -38,7 +38,17 @@
 
               <!-- State / Province -->
               <div class="col-4" style="padding-left: 5px; padding-right: 5px;">
-                <input type="text" class="form-control form-control-lg" placeholder="State / Province" v-model="province" />
+                <div v-if="countryCode === 'US'">
+                  <select v-model="province" class="form-control form-control-lg">
+                    <option v-for="stateName, stateCode in usStates" :value="stateCode">{{ stateName }}</option>
+                  </select>
+                </div>
+                <div v-else-if="countryCode === 'CA'">
+                  <select v-model="province" class="form-control form-control-lg">
+                    <option v-for="provinceName, provinceCode in caProvinces" :value="provinceCode">{{ provinceName }}</option>
+                  </select>
+                </div>
+                <input v-else type="text" class="form-control form-control-lg" placeholder="State / Province" v-model="province" />
               </div>
 
               <!-- Zip -->
@@ -140,8 +150,15 @@
             
           </div>
 
-          <button class="checkout__submit btn btn-lg btn-block btn-success mt-5">Place Your Order</button>
-          <p class="text-center mt-3">By placing your order, you agree to our terms of service</p>
+          <div class="alert alert-danger" v-if="addressErrors.length">
+            <p v-for="error in addressErrors">{{ error.title }}</p>
+          </div>
+
+          <button :disabled="isPlacingOrder || isLoadingPaymentAccounts" class="checkout__submit btn btn-lg btn-block btn-success mt-5" @click="placeOrder">
+            <template v-if="isPlacingOrder">Placing Your Order</template>
+            <template v-else>Place Your Order</template>
+          </button>
+          <p class="text-center mt-3">By placing your order, you agree to our <a href="/pages/terms" target="_blank">terms of service</a></p>
 
         </div>
         <div class="col-md-5 offset-md-1">
