@@ -13,7 +13,10 @@
 
     </template>
 
-    <ContactForm v-if="pageJsonApi && pageJsonApi.document.data.attributes.show_contact_form" />
+    <div v-if="pageJsonApi && pageJsonApi.document.data.attributes.show_contact_form">
+      <hr />
+      <ContactForm />
+    </div>
 
   </div>
 </template>

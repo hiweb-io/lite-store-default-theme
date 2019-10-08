@@ -14,66 +14,36 @@
           </div>
 
           <div class="col-md-3 col-6">
-            <strong class="footer__heading">Menu 1</strong>
+            <strong class="footer__heading">Services</strong>
 
             <div class="footer__menu">
 
-              <template v-if="menuLinks1">
-                <template v-for="menuLink in menuLinks1.document.data">
-                  <router-link v-if="menuLink.attributes.link_type !== 'custom'" :key="menuLink.id" class="mr-3" :to="$hiwebBase.router.routeTo(menuLink.attributes.resource_id ? menuLinks1.findIncludedResource(menuLink.attributes.link_type, menuLink.attributes.resource_id) : menuLink)" :title="menuLink.attributes.title">
-                    {{ menuLink.attributes.text }}
-                  </router-link>
-                  <a v-else :href="menuLink.attributes.link" target="_blank" :title="menuLink.attributes.title">{{ menuLink.attributes.text }}</a>
-                </template>
-              </template>
-
-              <template v-else>
-                <Loader v-if="isLoadingMenu1" />
-                <template v-else>
-
-                  <!-- Default links -->
-                  <router-link class="mr-3" to="/pages/about-us">About us</router-link>
-                  <router-link class="mr-3" to="/pages/contact-us">Contact us</router-link>
-
-                </template>
-              </template>
-                  
+              <!-- Default links -->
+              <router-link class="mr-3" to="/pages/contact-us">Contact us</router-link>
+              <router-link class="mr-3" to="/pages/privacy-policy">Privacy policy</router-link>
+              <router-link class="mr-3" to="/pages/shipping-delivery">Shipping & Delivery</router-link>
+            
             </div>
 
           </div>
           <div class="col-md-3 col-6">
-            <strong class="footer__heading">Menu 2</strong>
+            <strong class="footer__heading">Shop</strong>
 
             <div class="footer__menu">
 
-              <template v-if="menuLinks2">
-                <template v-for="menuLink in menuLinks2.document.data">
-                  <router-link v-if="menuLink.attributes.link_type !== 'custom'" :key="menuLink.id" class="mr-3" :to="$hiwebBase.router.routeTo(menuLink.attributes.resource_id ? menuLinks2.findIncludedResource(menuLink.attributes.link_type, menuLink.attributes.resource_id) : menuLink)" :title="menuLink.attributes.title">
-                    {{ menuLink.attributes.text }}
-                  </router-link>
-                  <a v-else :href="menuLink.attributes.link" target="_blank" :title="menuLink.attributes.title">{{ menuLink.attributes.text }}</a>
-                </template>
-              </template>
-
-              <template v-else>
-                <Loader v-if="isLoadingMenu1" />
-                <template v-else>
-
-                  <!-- Default links -->
-                  <router-link class="mr-3" to="/pages/about-us">About us</router-link>
-                  <router-link class="mr-3" to="/pages/contact-us">Contact us</router-link>
-
-                </template>
-              </template>
+              <!-- Default links -->
+              <router-link class="mr-3" to="/tracking">Track Order</router-link>
+              <router-link class="mr-3" to="/products">All products</router-link>
+              <router-link class="mr-3" to="/collections">Our collections</router-link>
 
             </div>
 
           </div>
           <div class="col-md-3 footer__thirt-column">
 
-            <strong class="footer__heading d-none d-sm-none d-md-block">Column 3</strong>
+            <strong class="footer__heading d-none d-sm-none d-md-block">Need Help?</strong>
             <hr class="d-block d-sm-block d-md-none" />
-            <div>Something</div>
+            <div>{{ ($store.state.options.options && $store.state.options.options.footer_text) ? $store.state.options.options.footer_text : '' }}</div>
 
           </div>
           <div class="col-md-3 text-right pt-4">
