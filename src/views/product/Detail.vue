@@ -98,15 +98,24 @@
           </button>
 
           <!-- Badge -->
-          <img :src="require('@/assets/icons/trusted-badge.webp')" class="mt-4" />
+          <img :src="require('@/assets/icons/trusted-badge.webp')" class="mt-5" />
 
-          <!-- Product content -->
-          <hr style="margin-top: 2rem;" />
+        </div>
+
+        <!-- Product content -->
+        <div class="col-12"><hr class="mt-5" /></div>
+        <div class="col-md-8">
           <h3 class="content-heading">Product detail</h3>
           <div v-if="productJsonApi.document.data.attributes.description" class="mb-3">
             <small class="text-muted">{{ productJsonApi.document.data.attributes.description }}</small>
           </div>
           <div v-html="productJsonApi.document.data.attributes.content"></div>
+        </div>
+
+        <div class="col-md-4 d-none d-md-block">
+
+          <h3 class="content-heading">Customer reviews</h3>
+          <CustomerReviews />
 
         </div>
 
@@ -142,8 +151,9 @@
         </div>
 
         <!-- Product reviews -->
-        <div class="d-none" id="customer-reviews">
-          <!--<CustomerReviews />-->
+        <div class="d-sm-block d-md-none container" id="customer-reviews">
+          <h3 class="content-heading">Customer reviews</h3>
+          <CustomerReviews />
         </div>
 
       </div>
@@ -160,13 +170,14 @@ import $ from 'jquery';
 import Images from '@/views/product/detail-components/Images';
 import Option from '@/views/product/detail-components/Option';
 import RelatedProducts from '@/components/RelatedProducts';
+import CustomerReviews from '@/components/CustomerReviews';
 
 export default {
 
   mixins: [base.mixins.product.detail],
 
   components: { 
-    Images, Option, RelatedProducts,
+    Images, Option, RelatedProducts, CustomerReviews
   },
 
   mounted() {

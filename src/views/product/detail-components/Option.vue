@@ -22,7 +22,7 @@
         <div class="text-center col-2" v-for="optionValue in optionValues" v-if="show(optionValue.id)">
 
           <div class="product-detail__option__option-value product-detail__option__option-value--color">
-            <div :class="'product-detail__option__option-value__color-circle ' + (checkActive(optionValue.id) ? 'active' : '')" @click="changeOptionValue(optionValue.id)">
+            <div :class="'product-detail__option__option-value__color-circle ' + (checkOptionValueActive(optionValue.id) ? 'active' : '')" @click="changeOptionValue(optionValue.id)">
               <div :style="'background: ' + optionValueColorMap[optionValue.attributes.value]"></div>
             </div>
           </div>
@@ -34,9 +34,9 @@
     <!-- Option default selector -->
     <template v-else>
 
-      <div v-if="false" style="margin-left: -8px; margin-right: -8px;">
-        <div :class="'product-detail__option__default-select ' + (optionValueMaxLength() > 3 ? 'product-detail__option__default-select--long' : '')" v-for="variant in variants" v-if="show(optionValue.id)" @click="changeOptionValue(optionValue.id)">
-          <div :class="'text-center product-detail__option__option-value text-center product-detail__option__option-value--default ' + (checkActive(optionValue.id) ? 'active' : '')">
+      <div v-if="optionValueMaxLength() <= 8" style="margin-left: -8px; margin-right: -8px;" :class="(!selectedOptionValue && $parent.showOptionWarning) ? 'option-not-selected' : ''">
+        <div :class="'product-detail__option__default-select ' + (optionValueMaxLength() > 3 ? 'product-detail__option__default-select--long' : '')" v-for="variant in variants" @click="selectedOptionValue = variant.attributes['option' + index]">
+          <div :class="'text-center product-detail__option__option-value text-center product-detail__option__option-value--default ' + (checkOptionValueActive(variant.attributes['option' + index]) ? 'active' : '')">
             <span>{{ variant.attributes['option' + index] }}</span>
           </div>
         </div>
@@ -130,6 +130,15 @@
         color: #dc3545 !important;
       }
     }
+
+    .product-detail__option__default-select {
+      color: #dc3545 !important;
+
+      .product-detail__option__option-value {
+        border: 1px solid #dc3545 !important;
+      }
+      
+    }
   }
 
   .nice-select {
@@ -194,7 +203,17 @@ export default {
 
     optionValueMaxLength() {
 
-      return 5;
+      let max = 0;
+
+      for (let i = 0; i < this.variants.length; i++) {
+
+        if (this.variants[i].attributes['option' + this.index].length > max) {
+          max = this.variants[i].attributes['option' + this.index].length;
+        }
+
+      }
+
+      return max;
 
     },
 
