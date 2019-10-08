@@ -28,8 +28,13 @@
             <!-- Address -->
             <input type="text" class="form-control form-control-lg mb-3" placeholder="Address" v-model="address" />
 
+            <!-- Country -->
+            <select class="form-control form-control-lg" v-model="countryCode">
+              <option v-for="countryName, countryCode in countries" :value="countryCode">{{ countryName }}</option>
+            </select>
+
             <!-- City, state, zip -->
-            <div class="row mb-3">
+            <div class="row mt-3">
 
               <!-- City -->
               <div class="col-4" style="padding-right: 5px;">
@@ -57,11 +62,6 @@
               </div>
 
             </div>
-
-            <!-- Country -->
-            <select class="form-control form-control-lg" v-model="countryCode">
-              <option v-for="countryName, countryCode in countries" :value="countryCode">{{ countryName }}</option>
-            </select>
 
           </div>
 
