@@ -43,7 +43,7 @@
 
             <strong class="footer__heading d-none d-sm-none d-md-block">Need Help?</strong>
             <hr class="d-block d-sm-block d-md-none" />
-            <div>{{ ($store.state.options.options && $store.state.options.options.footer_text) ? $store.state.options.options.footer_text : '' }}</div>
+            <div v-html="($store.state.options.options && $store.state.options.options.footer_text) ? $store.state.options.options.footer_text : ''"></div>
 
           </div>
           <div class="col-md-3 text-right pt-4">
