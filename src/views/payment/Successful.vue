@@ -8,10 +8,26 @@
 
         <p class="text-success">We received your payment and our system have just sent you a confirmation email. Your order is now being processed and we'll inform you via email for any update.</p>
 
-        <p class="text-success">You can track your order by yourself anytime at: https://tracking.printabel.com. For any question or inquiry, don't be hesitate to contact us.</p>
+        <p class="text-success">You can track your order by yourself anytime at: <a href="/tracking">Tracking Page</a>. For any question or inquiry, don't be hesitate to contact us.</p>
       </div>
 
     </div>
   </div>
 
 </template>
+
+<script type="text/javascript">
+export default {
+
+  created() {
+    
+    this.$hiwebBase.cookie.setCookie('cart-id', '', -1);
+    this.$hiwebBase.cart.get();
+
+    // Trigger global event
+    window.dispatchEvent(new CustomEvent('payment-successful'));
+
+  }
+
+}
+</script>
