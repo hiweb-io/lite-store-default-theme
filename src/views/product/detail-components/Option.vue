@@ -306,6 +306,11 @@ export default {
 
   watch: {
 
+    '$route': function() {
+      this.destroyNiceSelect();
+      this.activeNiceSelect();
+    }
+
   }
 
 }
