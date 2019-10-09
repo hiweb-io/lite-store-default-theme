@@ -220,6 +220,7 @@ export default {
   watch: {
 
     slug: function() {
+      this.$forceUpdate();
       this.activeNiceSelect();
     }
 
