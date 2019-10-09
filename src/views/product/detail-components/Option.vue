@@ -307,8 +307,7 @@ export default {
   watch: {
 
     '$route': function() {
-      this.destroyNiceSelect();
-      this.activeNiceSelect();
+      $(this.$el).find('.nice-select').remove();
     }
 
   }
