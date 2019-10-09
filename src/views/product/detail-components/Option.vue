@@ -232,6 +232,7 @@ export default {
           }
 
           element.niceSelect();
+
           element.change(function() {
 
             superObject.selectedOptionValue = $(this).val();
@@ -308,6 +309,8 @@ export default {
 
     '$route': function() {
       $(this.$el).find('.nice-select').remove();
+      this.destroyNiceSelect();
+      this.activeNiceSelect();
     }
 
   }
