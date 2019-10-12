@@ -73,40 +73,68 @@
         </router-link>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <router-link to="/" class="nav-item nav-link" href="#">Home</router-link>
+          <div class="navbar-nav" style="width: 100%">
 
-            <router-link class="nav-item nav-link" :to="{ name: 'product.collection' }">
-              All products
-            </router-link>
+            <!-- Is loading menus -->
+            <div class="text-center" style="width: 100%" v-if="isLoadingMenus">
+              <loader />
+            </div>
+          
+            <template v-else> <!-- Menus are loaded -->
 
-            <!-- Show collections -->
-            <template v-if="collections && collections.length">
-              <template v-for="collection in childCollections(false)">
-
-                <!-- Has child collections -->
-                <li class="nav-item dropdown" v-if="childCollections(collection.id).length">
-                  <router-link class="nav-link dropdown-toggle"  :to="{ name: 'collection.detail', params: { slug: collection.attributes.slug } }">
-                    {{ collection.attributes.title }}
-                  </router-link>
-                  <div class="dropdown-menu pl-2">
-                    <router-link v-for="childCollection in childCollections(collection.id)" :key="childCollection.id" class="nav-item nav-link" :to="{ name: 'collection.detail', params: { slug: childCollection.attributes.slug } }">
-                      {{ childCollection.attributes.title }}
+              <!-- Main menu is set -->
+              <template v-if="mainMenu">
+                <template v-for="menuItem in getMenuItems(null)">
+                    
+                  <!-- Has child items -->
+                  <li class="nav-item dropdown" v-if="getMenuItems(menuItem.id).length">
+                    
+                    <a v-if="isExternalLink(menuItem.attributes.value)" class="nav-link" :href="menuItem.attributes.value" :target="menuItem.attributes.target">
+                      {{ menuItem.attributes.name }}
+                    </a>
+                    <router-link v-else class="nav-link dropdown-toggle" :to="menuItem.attributes.value" :target="menuItem.attributes.target">
+                      {{ menuItem.attributes.name }}
                     </router-link>
-                  </div>
-                </li>
 
-                <!-- Has no child collections -->
-                <router-link v-else class="nav-item nav-link" :to="{ name: 'collection.detail', params: { slug: collection.attributes.slug } }">
-                  {{ collection.attributes.title }}
+                    <div class="dropdown-menu pl-2">
+                      <template v-for="childMenuItem in getMenuItems(menuItem.id)">
+                        <a v-if="isExternalLink(childMenuItem.attributes.value)" class="nav-item nav-link" :href="childMenuItem.attributes.value" :target="childMenuItem.attributes.target">
+                          {{ childMenuItem.attributes.name }}
+                        </a>
+                        <router-link v-else class="nav-item nav-link" :to="childMenuItem.attributes.value">
+                          {{ childMenuItem.attributes.name }}
+                        </router-link>
+                      </template>
+                    </div>
+                  </li>
+
+                  <!-- Has no child items -->
+                  <template v-else>
+                    <a v-if="isExternalLink(menuItem.attributes.value)" class="nav-item nav-link" :href="menuItem.attributes.value" :target="menuItem.attributes.target">
+                      {{ menuItem.attributes.name }}
+                    </a>
+                    <router-link v-else class="nav-item nav-link" :to="menuItem.attributes.value" :target="menuItem.attributes.target">
+                      {{ menuItem.attributes.name }}
+                    </router-link>
+                  </template>
+                    
+                </template>
+              </template>
+
+              <!-- Default menu -->
+              <template v-else>
+                <router-link to="/" class="nav-item nav-link" href="#">Home</router-link>
+
+                <router-link class="nav-item nav-link" :to="{ name: 'product.collection' }">
+                  All products
                 </router-link>
 
+                <router-link class="nav-item nav-link" :to="{ name: 'collection.collection' }">
+                  Our collections
+                </router-link>
               </template>
-            </template>
 
-            <router-link v-else class="nav-item nav-link" :to="{ name: 'collection.collection' }">
-              Our collections
-            </router-link>
+            </template>
 
             <a href="/tracking" class="nav-item nav-link d-block d-sm-block d-md-none">
               Order Tracking
@@ -133,8 +161,151 @@
 
 </template>
 
+<script type="text/javascript">
+import $ from 'jquery';
+import base from 'lite-store-vue-base';
+
+export default {
+
+  mixins: [base.mixins.components.navbar],
+
+  data() {
+
+    return {
+      searchProductTitle: '',
+      collections: []
+    };
+
+  },
+
+  created() {
+
+  },
+
+  methods: {
+
+    isExternalLink(link) {
+      let query = 'http';
+      return link.substr(0, query.length).toUpperCase() == query.toUpperCase();
+    },
+
+    getMenuItems(parentId) {
+
+      parentId = parentId ? parentId : null;
+
+      let menuItems = this.menus.findRelationshipResources(this.mainMenu, 'menu_items');
+
+      let matchedMenuItems = [];
+
+      for (let i = 0; i < menuItems.length; i++) {
+
+        if (menuItems[i].attributes.parent_id === parentId) {
+          matchedMenuItems.push(menuItems[i]);
+        }
+
+      }
+
+      return matchedMenuItems;
+
+    },
+
+    searchProducts() {
+
+      this.$router.push({
+        name: 'product.collection',
+        query: {
+          title: this.searchProductTitle
+        }
+      });
+      
+      if ($(this.$el).find('.navbar-collapse').css('display') !== 'none') {
+        $(this.$el).find('.navbar-toggler').click();
+      }
+
+    }
+
+  },
+
+  watch: {
+
+    '$route': function() {
+
+      if(this.$router.currentRoute.name === 'cart.index' || this.$router.currentRoute.name === 'checkout.index') {
+        $('#float-mobile-cart-button').hide();
+      } else {
+        $('#float-mobile-cart-button').show();
+      }
+
+      $('#navbar-default').removeClass('show');
+
+      if ($(this.$el).find('.navbar-collapse').css('display') !== 'none') {
+        $(this.$el).find('.navbar-toggler').click();
+      }
+    }
+
+  },
+
+  computed: {
+
+    logo() {
+
+      if (this.$store.state.options.options) {
+
+        if (typeof this.$store.state.options.options.logo !== 'undefined') {
+          return this.$store.state.options.options.logo;
+        }
+
+        return require('@/assets/logo.png');
+        
+      }
+
+      return null;      
+
+    },
+
+    menus() {
+      return this.$store.state.menus.menus;
+    },
+
+    mainMenu() {
+
+      if (!this.menus) {
+        return null;
+      }
+
+      for (let i = 0; i < this.menus.document.data.length; i++) {
+
+        if (this.menus.document.data[i].attributes.slug === 'main') {
+          return this.menus.document.data[i];
+        }
+
+      }
+
+      return null;
+
+    },
+
+    isLoadingMenus() {
+      return this.$store.state.menus.isLoading;
+    }
+
+  },
+
+  mounted() {
+    $(this.$el).find('.nav-link').click(() => {
+      $(this.$el).find('.navbar-toggler').click();
+    });
+  }
+
+}
+</script>
+
 <style type="text/css" lang="scss">
 #navbar {
+
+  .dropdown-toggle::after {
+    display: none;
+  }
 
   .container {
     justify-content: normal !important;
@@ -213,127 +384,10 @@
   }
 
   .nav-item.dropdown:hover .dropdown-menu {
-    display: block;
+    display: inline-block;
     top: 35px;
+    min-width: 250px;
   }
 
 }
 </style>
-
-<script type="text/javascript">
-import $ from 'jquery';
-import base from 'lite-store-vue-base';
-
-export default {
-
-  mixins: [base.mixins.components.navbar],
-
-  data() {
-
-    return {
-      searchProductTitle: '',
-      collections: []
-    };
-
-  },
-
-  created() {
-
-    this.setLogo();
-
-  },
-
-  methods: {
-
-    setLogo() {
-
-    },
-
-    childCollections(parentId) {
-
-      let childCollections = [];
-
-      for (let i = 0; i < this.collections.length; i++) {
-
-        let match = false;
-
-        if (!parentId && !this.collections[i].attributes.parent_id) {
-          match = true;
-        } else if (this.collections[i].attributes.parent_id === parentId) {
-          match = true;
-        }
-
-        if (match) {
-          childCollections.push(this.collections[i]);
-        }
-
-      }
-
-      return childCollections;
-
-    },
-
-    searchProducts() {
-
-      this.$router.push({
-        name: 'product.collection',
-        query: {
-          title: this.searchProductTitle
-        }
-      });
-      
-      if ($(this.$el).find('.navbar-collapse').css('display') !== 'none') {
-        $(this.$el).find('.navbar-toggler').click();
-      }
-
-    }
-
-  },
-
-  watch: {
-
-    '$route': function() {
-
-      if(this.$router.currentRoute.name === 'cart.index' || this.$router.currentRoute.name === 'checkout.index') {
-        $('#float-mobile-cart-button').hide();
-      } else {
-        $('#float-mobile-cart-button').show();
-      }
-
-      $('#navbar-default').removeClass('show');
-
-      if ($(this.$el).find('.navbar-collapse').css('display') !== 'none') {
-        $(this.$el).find('.navbar-toggler').click();
-      }
-    }
-
-  },
-
-  computed: {
-
-    logo() {
-
-      if (this.$store.state.options.options) {
-
-        if (typeof this.$store.state.options.options.logo !== 'undefined') {
-          return this.$store.state.options.options.logo;
-        }
-
-        return require('@/assets/logo.png');
-        
-      }
-
-      return null;      
-
-    }
-
-  },
-
-  mounted() {
-    $(this.$el).find('.nav-link').click(() => {
-      $(this.$el).find('.navbar-toggler').click();
-    });
-  }
-
-}
-</script>
