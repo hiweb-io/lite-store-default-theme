@@ -286,6 +286,11 @@ export default {
     },
 
     isLoadingMenus() {
+
+      if (!this.$store.state.menus) {
+        return false;
+      }
+
       return this.$store.state.menus.isLoading;
     }
 
