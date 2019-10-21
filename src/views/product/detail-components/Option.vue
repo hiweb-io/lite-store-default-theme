@@ -35,9 +35,9 @@
     <template v-else>
 
       <div v-if="optionValueMaxLength() <= 8" style="margin-left: -8px; margin-right: -8px;" :class="(!selectedOptionValue && $parent.showOptionWarning) ? 'option-not-selected' : ''">
-        <div :class="'product-detail__option__default-select ' + (optionValueMaxLength() > 3 ? 'product-detail__option__default-select--long' : '')" v-for="variant in variants" @click="selectedOptionValue = variant.attributes['option' + index]">
-          <div :class="'text-center product-detail__option__option-value text-center product-detail__option__option-value--default ' + (checkOptionValueActive(variant.attributes['option' + index]) ? 'active' : '')">
-            <span>{{ variant.attributes['option' + index] }}</span>
+        <div :class="'product-detail__option__default-select ' + (optionValueMaxLength() > 3 ? 'product-detail__option__default-select--long' : '')" v-for="optionValue in optionValues" @click="selectedOptionValue = optionValue">
+          <div :class="'text-center product-detail__option__option-value text-center product-detail__option__option-value--default ' + (selectedOptionValue === optionValue ? 'active' : '')">
+            <span>{{ optionValue }}</span>
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
       <div v-else :class="(!selectedOptionValue && $parent.showOptionWarning) ? 'option-not-selected' : ''">
         <select v-model="selectedOptionValue">
           <option :value="null">Select an option</option>
-          <option v-for="variant in variants" :value="variant.attributes['option' + index]">{{ variant.attributes['option' + index] }}</option>
+          <option v-for="optionValue in optionValues" :value="optionValue">{{ optionValue }}</option>
         </select>
         <div style="clear: both;"></div>
       </div>
