@@ -145,3 +145,66 @@ body {
   left: -6px;
   top: 13px;
 }
+
+.slick-track{
+  margin-left: 0 !important;
+}
+
+.slick-slide{
+  padding: 10px;
+}
+
+.slick-prev, .slick-next {
+  font-size: 0;
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  display: block;
+  width: 25px;
+  height: 40px;
+  padding: 0;
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  cursor: pointer;
+  color: transparent;
+  border: none;
+  outline: none;
+  background: #ffffff;
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.slick-prev:before {
+  font-family: "Font Awesome 5 Free" !important;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+.slick-next:before {
+  font-family: "Font Awesome 5 Free" !important;
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 600;
+}
+
+.slick-next {
+  right: 20px;
+}
+
+.slick-prev {
+  left: 20px;
+}
+
+.slick-prev:before, .slick-next:before {
+  font-family: 'slick';
+  font-size: 20px;
+  line-height: 1;
+  opacity: .75;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

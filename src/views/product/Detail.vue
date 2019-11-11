@@ -147,7 +147,12 @@
 
         <!-- Related products -->
         <div class="col-12" style="margin-top: 100px;" v-if="searchString">
-          <RelatedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :use-modal="false" />
+          <RelatedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :tagsId="this.productJsonApi.findRelationshipResource(this.productJsonApi.document.data,'tags').id" :use-modal="false" />
+        </div>
+
+        <!-- recently viewed products -->
+        <div class="col-12" style="margin-top: 50px;" v-if="searchString">
+          <RecentlyViewedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :tagsId="this.productJsonApi.findRelationshipResource(this.productJsonApi.document.data,'tags').id" :use-modal="false" />
         </div>
 
         <!-- Product reviews -->
@@ -170,6 +175,7 @@ import $ from 'jquery';
 import Images from '@/views/product/detail-components/Images';
 import Option from '@/views/product/detail-components/Option';
 import RelatedProducts from '@/components/RelatedProducts';
+import RecentlyViewedProducts from '@/components/RecentlyViewedProducts';
 import CustomerReviews from '@/components/CustomerReviews';
 
 export default {
@@ -177,7 +183,7 @@ export default {
   mixins: [base.mixins.product.detail],
 
   components: { 
-    Images, Option, RelatedProducts, CustomerReviews
+    Images, Option, RelatedProducts, RecentlyViewedProducts, CustomerReviews
   },
 
   mounted() {

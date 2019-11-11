@@ -1,17 +1,16 @@
 <template>
   <div class="related-products" v-if="search">
-    <h3 v-if="relatedProductsJsonApi && typeof relatedProductsJsonApi.document.data !== 'undefined' && relatedProductsJsonApi.document.data.length" class="mb-3 text-center">
-      Our Picks For You
+    <h3 v-if="recentlyViewedProductsJsonApi && typeof recentlyViewedProductsJsonApi.document.data !== 'undefined' && recentlyViewedProductsJsonApi.document.data.length" class="mb-3 text-center">
+      Products You Recently Viewed
     </h3>
 
-    <template v-if="relatedProducts.data.length">
+    <template v-if="recentlyViewedProducts.data.length">
       <slick
         ref="slick"
         :options="slickOptions"
         >
-          <div v-for="product in relatedProductsJsonApi.document.data">
-            <!-- <router-link :to="{ name: 'product.detail', params: { slug: product.attributes.slug } }"> -->
-              <div v-if="useModal" class="product-box mb-3" @click="activeProduct = product">
+          <div v-for="product in recentlyViewedProductsJsonApi.document.data">
+              <div v-if="useModal" class="product-box mb-3 " @click="activeProduct = product">
                 <div class="card">
                   <div class="product-box__preview">
                     <img :src="$hiwebBase.image.resize(product.attributes.preview, 360, true)" class="card-img-top" :alt="product.attributes.title">
@@ -23,11 +22,10 @@
                 </div>
               </div>
 
-              <product-box v-else :product="product" :variant="relatedProductsJsonApi.findRelationshipResource(product, 'variants')" :image="relatedProductsJsonApi.findRelationshipResource(product, 'image')" />
-            <!-- </router-link> -->
+              <product-box v-else :product="product" :variant="recentlyViewedProductsJsonApi.findRelationshipResource(product, 'variants')" :image="recentlyViewedProductsJsonApi.findRelationshipResource(product, 'image')" />
           </div>
       </slick>
-      
+
       <div class="row">
 
         <div class="related-product-modal" v-if="activeProduct">
@@ -50,7 +48,6 @@
         </div>
 
       </div>
-        
     </template>
 
   </div>
@@ -78,13 +75,14 @@ export default {
 
   components: { ProductModal, Slick, },
 
-  mixins: [base.mixins.components.relatedProducts],
+  mixins: [base.mixins.components.recentlyViewedProducts],
 
   data() {
 
     return {
       activeProduct: null,
       slickOptions: {
+        //   infinite: true,
         slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: true,
@@ -118,7 +116,7 @@ export default {
     };
 
   },
-  
+
   created() {
   },
 
