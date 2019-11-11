@@ -13,6 +13,7 @@ import PaymentSuccessful from '@/views/payment/Successful';
 import PaymentCancelled from '@/views/payment/Cancelled';
 import ProductCollection from '@/views/product/Collection';
 import ProductDetail from '@/views/product/Detail';
+import UpsellIndex from '@/views/upsell/Index';
 
 // Import hiweb base
 import hiweb from 'lite-store-vue-base';
@@ -40,7 +41,8 @@ export default new Router({
       'payment.successful': PaymentSuccessful,
       'payment.cancelled': PaymentCancelled,
       'product.collection': ProductCollection,
-      'product.detail': ProductDetail
+      'product.detail': ProductDetail,
+      'upsell.index': UpsellIndex
     })
   ]
 })
