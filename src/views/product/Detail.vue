@@ -151,8 +151,13 @@
         </div>
 
         <!-- recently viewed products -->
-        <div class="col-12" style="margin-top: 50px;" v-if="searchString">
+        <div class="col-12" style="margin-top: 50px;" >
           <RecentlyViewedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :tagsId="this.productJsonApi.findRelationshipResource(this.productJsonApi.document.data,'tags').id" :use-modal="false" />
+        </div>
+
+        <!-- popular products -->
+        <div class="col-12" style="margin-top: 50px;" >
+          <PopularProducts  :use-modal="false" />
         </div>
 
         <!-- Product reviews -->
@@ -176,6 +181,7 @@ import Images from '@/views/product/detail-components/Images';
 import Option from '@/views/product/detail-components/Option';
 import RelatedProducts from '@/components/RelatedProducts';
 import RecentlyViewedProducts from '@/components/RecentlyViewedProducts';
+import PopularProducts from '@/components/PopularProducts';
 import CustomerReviews from '@/components/CustomerReviews';
 
 export default {
@@ -183,7 +189,7 @@ export default {
   mixins: [base.mixins.product.detail],
 
   components: { 
-    Images, Option, RelatedProducts, RecentlyViewedProducts, CustomerReviews
+    Images, Option, RelatedProducts, RecentlyViewedProducts, CustomerReviews, PopularProducts
   },
 
   mounted() {
