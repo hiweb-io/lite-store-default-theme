@@ -1,10 +1,10 @@
 <template>
-  <div class="recently-viewed-products">
-    <h3 v-if="recentlyViewedProductsJsonApi && typeof recentlyViewedProductsJsonApi.document.data !== 'undefined' && recentlyViewedProductsJsonApi.document.data.length" class="mb-3 text-center">
-      Products You Recently Viewed
+  <div class="popular-products">
+    <h3 v-if="popularProductsJsonApi && typeof popularProductsJsonApi.document.data !== 'undefined' && popularProductsJsonApi.document.data.length" class="mb-3 text-center">
+      Popular Products
     </h3>
 
-    <template v-if="recentlyViewedProducts.data.length">
+    <template v-if="popularProducts.data.length">
         <loader  v-if="isLoading" />
 
         <div v-else>
@@ -12,7 +12,7 @@
                 ref="slick"
                 :options="slickOptions"
                 >
-                <div v-for="product in recentlyViewedProductsJsonApi.document.data">
+                <div v-for="product in popularProductsJsonApi.document.data">
                     <div v-if="useModal" class="product-box mb-3 " @click="activeProduct = product">
                         <div class="card">
                         <div class="product-box__preview">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <product-box v-else :product="product" :variant="recentlyViewedProductsJsonApi.findRelationshipResource(product, 'variants')" :image="recentlyViewedProductsJsonApi.findRelationshipResource(product, 'image')" />
+                    <product-box v-else :product="product" :variant="popularProductsJsonApi.findRelationshipResource(product, 'variants')" :image="popularProductsJsonApi.findRelationshipResource(product, 'image')" />
                 </div>
             </slick>
         </div>
@@ -66,7 +66,7 @@ import Slick from 'vue-slick';
 
 export default {
 
-  name: 'recently-viewed-products',
+  name: 'popular-products',
 
   props: {
     size: {
@@ -81,7 +81,7 @@ export default {
 
   components: { ProductModal, Slick, },
 
-  mixins: [base.mixins.components.recentlyViewedProducts],
+  mixins: [base.mixins.components.popularProducts],
 
   data() {
 
@@ -163,7 +163,7 @@ export default {
 
 @import '../../node_modules/slick-carousel/slick/slick.css';
 
-.recently-viewed-products {
+.popular-products {
   .slick-slide{
     padding: 10px;
   }

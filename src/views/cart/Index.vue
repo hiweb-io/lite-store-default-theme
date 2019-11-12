@@ -47,7 +47,23 @@
 
       </div>
       
+      <!-- Cart item related products -->
+
       <CartItemRelatedProducts />
+
+      <!-- RecentlyViewedProducts -->
+
+      <div class="container">
+        <div class="row">
+          <div class="col-12 mt-5">
+             <RecentlyViewedProducts />
+          </div>
+
+          <div class="col-12 mt-5">
+             <PopularProducts />
+          </div>
+        </div>
+      </div>
 
     </div>
 
@@ -60,12 +76,14 @@ import base from 'lite-store-vue-base';
 
 import CartItems from '@/components/CartItems';
 import CartItemRelatedProducts from '@/components/CartItemRelatedProducts';
+import RecentlyViewedProducts from '@/components/RecentlyViewedProducts';
+import PopularProducts from '@/components/PopularProducts';
 
 export default {
 
   mixins: [base.mixins.cart.index],
 
-  components: { CartItems, CartItemRelatedProducts },
+  components: { CartItems, CartItemRelatedProducts, RecentlyViewedProducts, PopularProducts,  },
 
   data() {
 
