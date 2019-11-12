@@ -93,7 +93,9 @@
 
           <img height="80px" src="@/assets/credit-card.png">
 
-          <p class="text-grey text-sm mt-3"><small>No thanks, I don't want to take this one-time offer for first-time customer.</small></p>
+          <div class="text-sm mt-3">
+            <router-link :to="{name: 'payment.successful'}" class="text-grey"><small>No thanks, I don't want to take this one-time offer for first-time customer.</small></router-link>
+          </div>
           
         </div>
         
@@ -141,7 +143,7 @@ export default {
         // If the count down is finished, write some text
         if (distance < 0) {
           clearInterval(x);
-          $(this.$el).find('.upsell--countdown').html('--:--:--');
+          $(this.$el).find('.upsell--countdown').html("<div class='upsell--countdown__item'>--<br/>Hours </div><div class='upsell--countdown__item'>--<br/>Minute </div><div class='upsell--countdown__item'>--<br/>Seconds </div>");
         }
 
       }, 1000);
