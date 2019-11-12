@@ -147,7 +147,7 @@
 
         <!-- Related products -->
         <div class="col-12" style="margin-top: 100px;" v-if="searchString">
-          <RelatedProducts :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :tagsId="this.productJsonApi.findRelationshipResource(this.productJsonApi.document.data,'tags').id" :use-modal="false" />
+          <RelatedProducts  :search="searchString" :exclude-ids="[this.productJsonApi.document.data.id]" :tagsId="this.productJsonApi.findRelationshipResource(this.productJsonApi.document.data,'tags').id" :use-modal="false" />
         </div>
 
         <!-- recently viewed products -->
