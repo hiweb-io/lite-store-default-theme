@@ -1,6 +1,8 @@
 <template>
   <div class="customer-reviews">
+
     <div class="td_reviews_session">
+
       <span><b>Average item review</b><br></span>
       <span class="td_reviews_text">(4.6)</span>
       <span class="fa fa-star td_reviews"></span>
@@ -13,309 +15,401 @@
       <span class="td_reviews_top_blocks">Quality (4.8)</span>
       <span class="td_reviews_top_blocks">Shipping (4.3)</span>
       <span class="td_reviews_top_blocks">Customer Service (4.5)</span>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://trupanion.com/blog/wp-content/uploads/2018/10/blackcat1resized.jpg" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">jonahsamson</span><span> on Aug 26, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Great carpet. Great price. Fast shipping. Highly recommend this shop!</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@SUNFLOWER20HM24072420RUG-f116f.jpeg" alt="" width="100" height="100">
-              </a>
+
+      <template v-if="!isLoading" >
+
+        <template v-if="reviews.data.length">
+
+          <div v-for="review in reviews.data" class="td_reviews_item">
+
+            <div class="td_reviews_avatar">
+              <img src="https://www.etsy.com/images/avatars/default_avatar_75x75.png" class="td_review_circle" alt="" width="48" height="48">
             </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Sunflower HM240724 Rug</a></b></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://www.etsy.com/images/avatars/default_avatar_75x75.png" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">michellebjork1</span><span> on Aug 26, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star-half-full td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>just like the picture. Love it.</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Butterfly20Garden20CLA07080620Round20Carpet-ce6dc.jpeg" alt="" width="100" height="100">
-              </a>
-            </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Butterfly Garden CLA070806 Round Carpet</a></b></p>
+
+            <div class="td_reviews_content">
+
+              <div class="td_reviews_name">
+                <span v-if="reviewsJsonApi.findRelationshipResource(review, 'user')" class="td_reviews_underline">{{reviewsJsonApi.findRelationshipResource(review, 'user').attributes.name}}</span><span> on {{ review.attributes.created_at | moment("MMM DD YYYY") }}</span>
+                </div>
+
+                <StarRating :disabled="true" :value="review.attributes.rating" />
+
+                <!-- <div class="td_reviews_4star">
+                  <span class="fa fa-star td_reviews"></span>
+                  <span class="fa fa-star td_reviews"></span>
+                  <span class="fa fa-star td_reviews"></span>
+                  <span class="fa fa-star td_reviews"></span>
+                  <span class="fa fa-star td_reviews"></span>
+                </div> -->
+
+                <div class="td_reviews_comment">
+                <span>{{ review.attributes.comment }}</span>
+              </div>
+
+              <div v-if="reviewsJsonApi.findRelationshipResource(review, 'product')" class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <router-link :to="{name: 'product.detail', params: {'slug': reviewsJsonApi.findRelationshipResource(review, 'product').attributes.slug}}">
+                    <img :src="reviewsJsonApi.findRelationshipResource(review, 'product').attributes.preview" alt="" width="100" height="100">
+                  </router-link>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><router-link :to="{name: 'product.detail', params: {'slug': reviewsJsonApi.findRelationshipResource(review, 'product').attributes.slug}}">{{ reviewsJsonApi.findRelationshipResource(review, 'product').attributes.title }}</router-link></b></p>
+                </div>
+              </div>
+
             </div>
           </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.669xw:1.00xh;0.166xw,0&amp;resize=640:*" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">June Newman</span><span> on Aug 24, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Awesome rug, fast shipping! Would buy again without a doubt!</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Cat20ML310703M20Rug-cc250.jpeg" alt="" width="100" height="100">
-              </a>
+
+        </template>
+
+        <template v-else >
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://trupanion.com/blog/wp-content/uploads/2018/10/blackcat1resized.jpg" class="td_review_circle" alt="" width="48" height="48">
             </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Cat ML310703M Rug</a></b></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-560251785-1559670034.jpg?crop=0.668xw:1.00xh;0.0401xw,0&amp;resize=640:*" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">bouey5</span><span> on Aug 23, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Beautiful rug, great condition. Fast shipping. Thank you!</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Cat20ML310701M20Rug-ac797.jpeg" alt="" width="100" height="100">
-              </a>
-            </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Cat ML310701M Rug</a></b></p>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">jonahsamson</span><span> on Aug 26, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Great carpet. Great price. Fast shipping. Highly recommend this shop!</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@SUNFLOWER20HM24072420RUG-f116f.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Sunflower HM240724 Rug</a></b></p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://www.etsy.com/images/avatars/default_avatar_75x75.png" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">Canaan100</span><span> on Aug 21, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star-half-full td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Love this carpet. Thanks!</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Guitar-HM2907057-Rug-543fc.jpeg" alt="" width="100" height="100">
-              </a>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://www.etsy.com/images/avatars/default_avatar_75x75.png" class="td_review_circle" alt="" width="48" height="48">
             </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Guitar HM2907057 Rug</a></b></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://i.etsystatic.com/iusa/0b22cc/55400601/iusa_75x75.55400601_rjw1.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">Rike Harrison</span><span> on Aug 19, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star-half-full td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Beautiful rug, arrived quickly. looks just like the picture.</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@HORSE20HM24071520RUG-63553.jpeg" alt="" width="100" height="100">
-              </a>
-            </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Horse HM240715 Rug</a></b></p>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">michellebjork1</span><span> on Aug 26, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star-half-full td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>just like the picture. Love it.</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Butterfly20Garden20CLA07080620Round20Carpet-ce6dc.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Butterfly Garden CLA070806 Round Carpet</a></b></p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://i.etsystatic.com/iusa/e9109b/34132461/iusa_75x75.34132461_e5pm.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">SUZANNE JONES</span><span> on Aug 11, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>BEAUTIFUL piece. Very fast service and shipment; great communication! Highly recommend this shop.</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@a177c.jpeg" alt="" width="100" height="100">
-              </a>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.669xw:1.00xh;0.166xw,0&amp;resize=640:*" class="td_review_circle" alt="" width="48" height="48">
             </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Dragonfly HN300725T Rug</a></b></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://i.etsystatic.com/iusa/d87071/33054811/iusa_75x75.33054811_q0h7.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">Selina Robertson</span><span> on Aug 9, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Great colors,great style,great service. Shipped on time!!!</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Golden-retriever-HM2907050-Rug-bcd1a.jpeg" alt="" width="100" height="100">
-              </a>
-            </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Golden Retriever HM2907050 Rug</a></b></p>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">June Newman</span><span> on Aug 24, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Awesome rug, fast shipping! Would buy again without a doubt!</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Cat20ML310703M20Rug-cc250.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Cat ML310703M Rug</a></b></p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://i.etsystatic.com/iusa/9ab88e/35940048/iusa_75x75.35940048_9rf7.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">Courtney W</span><span> on Aug 6, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Everyone in my family loves it.</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x900@Native20American20CL070816MD20Round20Carpet-2679d.jpeg" alt="" width="100" height="100">
-              </a>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-560251785-1559670034.jpg?crop=0.668xw:1.00xh;0.0401xw,0&amp;resize=640:*" class="td_review_circle" alt="" width="48" height="48">
             </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Native American CL070816MDC Round Carpet</a></b></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="td_reviews_item">
-        <div class="td_reviews_avatar">
-        <img src="https://i.etsystatic.com/iusa/264cb7/50241682/iusa_75x75.50241682_f7np.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
-        </div>
-        <div class="td_reviews_content">
-          <div class="td_reviews_name">
-          <span class="td_reviews_underline">Janet Rhoades</span><span> on Aug 3, 2019</span>
-          </div>
-          <div class="td_reviews_4star">
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-            <span class="fa fa-star td_reviews"></span>
-          </div>
-          <div class="td_reviews_comment">
-          <span>Absolutely perfect and could not be better! Thank you for your superlative business!</span>
-          </div>
-          <div class="td_reviews_product_info">
-            <div class="td_reviews_product_image">
-              <a href="#">
-              <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Baseball20HM300702B20TDT20Bedding20Sets-aac30.jpeg" alt="" width="100" height="100">
-              </a>
-            </div>
-            <div class="td_reviews_product_title">
-              <p><b><a href="#">Baseball HM300702B Bedding Sets</a></b></p>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">bouey5</span><span> on Aug 23, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Beautiful rug, great condition. Fast shipping. Thank you!</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Cat20ML310701M20Rug-ac797.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Cat ML310701M Rug</a></b></p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://www.etsy.com/images/avatars/default_avatar_75x75.png" class="td_review_circle" alt="" width="48" height="48">
+            </div>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">Canaan100</span><span> on Aug 21, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star-half-full td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Love this carpet. Thanks!</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Guitar-HM2907057-Rug-543fc.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Guitar HM2907057 Rug</a></b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://i.etsystatic.com/iusa/0b22cc/55400601/iusa_75x75.55400601_rjw1.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
+            </div>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">Rike Harrison</span><span> on Aug 19, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star-half-full td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Beautiful rug, arrived quickly. looks just like the picture.</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@HORSE20HM24071520RUG-63553.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Horse HM240715 Rug</a></b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://i.etsystatic.com/iusa/e9109b/34132461/iusa_75x75.34132461_e5pm.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
+            </div>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">SUZANNE JONES</span><span> on Aug 11, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>BEAUTIFUL piece. Very fast service and shipment; great communication! Highly recommend this shop.</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@a177c.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Dragonfly HN300725T Rug</a></b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://i.etsystatic.com/iusa/d87071/33054811/iusa_75x75.33054811_q0h7.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
+            </div>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">Selina Robertson</span><span> on Aug 9, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Great colors,great style,great service. Shipped on time!!!</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Golden-retriever-HM2907050-Rug-bcd1a.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Golden Retriever HM2907050 Rug</a></b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://i.etsystatic.com/iusa/9ab88e/35940048/iusa_75x75.35940048_9rf7.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
+            </div>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">Courtney W</span><span> on Aug 6, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Everyone in my family loves it.</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x900@Native20American20CL070816MD20Round20Carpet-2679d.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Native American CL070816MDC Round Carpet</a></b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="td_reviews_item">
+            <div class="td_reviews_avatar">
+            <img src="https://i.etsystatic.com/iusa/264cb7/50241682/iusa_75x75.50241682_f7np.jpg?version=0" class="td_review_circle" alt="" width="48" height="48">
+            </div>
+            <div class="td_reviews_content">
+              <div class="td_reviews_name">
+              <span class="td_reviews_underline">Janet Rhoades</span><span> on Aug 3, 2019</span>
+              </div>
+              <div class="td_reviews_4star">
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+                <span class="fa fa-star td_reviews"></span>
+              </div>
+              <div class="td_reviews_comment">
+              <span>Absolutely perfect and could not be better! Thank you for your superlative business!</span>
+              </div>
+              <div class="td_reviews_product_info">
+                <div class="td_reviews_product_image">
+                  <a href="#">
+                  <img src="https://img.shopbasecdn.com/10039/10039899/products/0x1296@Baseball20HM300702B20TDT20Bedding20Sets-aac30.jpeg" alt="" width="100" height="100">
+                  </a>
+                </div>
+                <div class="td_reviews_product_title">
+                  <p><b><a href="#">Baseball HM300702B Bedding Sets</a></b></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </template>
+
+      </template>
+
+      <template v-else>
+        <Loader />
+      </template>
+
     </div>
+
   </div>
 </template>
+
+<script>
+import base from 'lite-store-vue-base'
+import moment from 'moment'
+
+import StarRating from '@/elements/StarRating'
+
+import Loader from '@/components/Loader'
+
+export default {
+
+  mixins: [base.mixins.components.customerReviews],
+
+  components: { StarRating, Loader },
+
+  data() {
+    return {
+      moment,
+    }
+  }
+
+}
+  
+</script>
 
 <style type="text/css" lang="scss">
 .customer-reviews {

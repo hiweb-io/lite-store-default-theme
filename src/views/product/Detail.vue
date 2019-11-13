@@ -115,7 +115,7 @@
         <div class="col-md-4 d-none d-md-block">
 
           <h3 class="content-heading">Customer reviews</h3>
-          <CustomerReviews />
+          <CustomerReviews :product-id="productJsonApi.document.data.id" />
 
         </div>
 
@@ -158,7 +158,7 @@
         <!-- Product reviews -->
         <div class="d-sm-block d-md-none container" id="customer-reviews">
           <h3 class="content-heading">Customer reviews</h3>
-          <CustomerReviews />
+          <CustomerReviews :product-id="productJsonApi.document.data.id" />
         </div>
 
       </div>

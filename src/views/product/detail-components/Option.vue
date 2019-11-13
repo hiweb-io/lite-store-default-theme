@@ -205,10 +205,14 @@ export default {
 
       let max = 0;
 
-      for (let i = 0; i < this.variants.length; i++) {
+      if(this.variants) {
 
-        if (this.variants[i].attributes['option' + this.index].length > max) {
-          max = this.variants[i].attributes['option' + this.index].length;
+        for (let i = 0; i < this.variants.length; i++) {
+
+          if (this.variants[i].attributes['option' + this.index] && this.variants[i].attributes['option' + this.index].length > max) {
+            max = this.variants[i].attributes['option' + this.index].length;
+          }
+
         }
 
       }

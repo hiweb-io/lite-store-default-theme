@@ -14,6 +14,8 @@ Vue.use(hiweb, {
 	options
 });
 
+Vue.use(require('vue-moment'));
+
 Vue.config.productionTip = false
 
 // Global jquery
