@@ -5,12 +5,15 @@
     </h3>
 
     <template v-if="popularProducts.data.length">
-        <loader  v-if="isLoading" />
+        <!-- <loader  v-if="isLoading" /> -->
 
-        <div v-else>
+        <div >
             <slick
                 ref="slick"
                 :options="slickOptions"
+                @next="next"
+                @afterChange="handleAfterChange"
+                @beforeChange="handleBeforeChange"
                 >
                 <div v-for="product in popularProductsJsonApi.document.data">
                     <div v-if="useModal" class="product-box mb-3 " @click="activeProduct = product">
@@ -88,11 +91,11 @@ export default {
     return {
       activeProduct: null,
       slickOptions: {
-        //   infinite: true,
         slidesToShow: 4,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
+        slidesToScroll: 4,
+        // dots: true,
+        infinite: false,
+        speed: 300,
         responsive: [
           {
             breakpoint: 1024,
@@ -142,16 +145,27 @@ export default {
 
     reInit() {
         // Helpful if you have to deal with v-for to update dynamic lists
+        let currIndex = this.$refs.slick ? this.$refs.slick.currentSlide() : 0;
+        this.$refs.slick.destroy()
         this.$nextTick(() => {
-            this.$refs.slick.reSlick();
+            // this.$refs.slick.reSlick();
+            this.$refs.slick.create()
+            this.$refs.slick.goTo(currIndex, true)
         });
     },
 
-    handleLazyLoaded(event, slick, image, imageSource) {
-        console.log('handleLazyLoaded', event, slick, image, imageSource);
+    // Events listeners
+    handleAfterChange(event, slick, currentSlide) {
+        if (currentSlide == this.countProducts - 8 && this.currentLoadProducts == this.limit) {
+            this.page++;
+            this.loadPopularProducts();
+        }
     },
-    handleLazeLoadError(event, slick, image, imageSource) {
-        console.log('handleLazeLoadError', event, slick, image, imageSource);
+    handleBeforeChange(event, slick, currentSlide, nextSlide) {
+        if (nextSlide == 0) {
+            this.page++;
+            this.loadPopularProducts();
+        }
     },
 
   }
