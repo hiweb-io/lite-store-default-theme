@@ -188,12 +188,12 @@ export default {
 
   created() {
     if (this.optionValueMaxLength() <= 8) {
-      if (this.optionValues.includes(this.optionMinprice().attributes.option1)) {
-        this.selectedOptionValue = this.optionMinprice().attributes.option1;
-      }else if (this.optionValues.includes(this.optionMinprice().attributes.option2)) {
-        this.selectedOptionValue = this.optionMinprice().attributes.option2;
+      if (this.optionValues.includes(this.optionMinPrice().attributes.option1)) {
+        this.selectedOptionValue = this.optionMinPrice().attributes.option1;
+      }else if (this.optionValues.includes(this.optionMinPrice().attributes.option2)) {
+        this.selectedOptionValue = this.optionMinPrice().attributes.option2;
       }else{
-        this.selectedOptionValue = this.optionMinprice().attributes.option3;
+        this.selectedOptionValue = this.optionMinPrice().attributes.option3;
       }
     }
   },
@@ -225,7 +225,7 @@ export default {
 
     },
 
-    optionMinprice(){
+    optionMinPrice(){
 
       let minPrice = 10000;
 
