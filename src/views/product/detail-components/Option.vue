@@ -187,15 +187,15 @@ export default {
   },
 
   created() {
-    if (this.optionValueMaxLength() <= 8) {
-      if (this.optionValues.includes(this.optionMinPrice().attributes.option1)) {
-        this.selectedOptionValue = this.optionMinPrice().attributes.option1;
-      }else if (this.optionValues.includes(this.optionMinPrice().attributes.option2)) {
-        this.selectedOptionValue = this.optionMinPrice().attributes.option2;
-      }else{
-        this.selectedOptionValue = this.optionMinPrice().attributes.option3;
-      }
+
+    if (this.optionValues.includes(this.optionMinPrice().attributes.option1)) {
+      this.selectedOptionValue = this.optionMinPrice().attributes.option1;
+    }else if (this.optionValues.includes(this.optionMinPrice().attributes.option2)) {
+      this.selectedOptionValue = this.optionMinPrice().attributes.option2;
+    }else{
+      this.selectedOptionValue = this.optionMinPrice().attributes.option3;
     }
+    
   },
 
   mounted() {
