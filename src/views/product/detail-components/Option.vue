@@ -187,7 +187,15 @@ export default {
   },
 
   created() {
-
+    if (this.optionValueMaxLength() <= 8) {
+      if (this.optionValues.includes(this.optionMinprice().attributes.option1)) {
+        this.selectedOptionValue = this.optionMinprice().attributes.option1;
+      }else if (this.optionValues.includes(this.optionMinprice().attributes.option2)) {
+        this.selectedOptionValue = this.optionMinprice().attributes.option2;
+      }else{
+        this.selectedOptionValue = this.optionMinprice().attributes.option3;
+      }
+    }
   },
 
   mounted() {
@@ -215,6 +223,17 @@ export default {
 
       return max;
 
+    },
+
+    optionMinprice(){
+
+      let minPrice = 10000;
+
+      for (let i = 0; i < this.variants.length; i++) {
+        if (this.variants[i].attributes.price < minPrice) {
+          return this.variants[i];
+        }        
+      }
     },
 
     activeNiceSelect() {
