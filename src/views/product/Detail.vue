@@ -65,7 +65,7 @@
           <!-- Options -->
           <template v-for="i in 3">
             <div class="mt-3" v-if="productJsonApi.document.data.attributes['option' + i]">
-              <Option :option="productJsonApi.document.data.attributes['option' + i]" :index="i" :variants="productJsonApi.findRelationshipResources(productJsonApi.document.data, 'variants')" />
+              <Option v-if="!isLoading" :option="productJsonApi.document.data.attributes['option' + i]" :index="i" :variants="productJsonApi.findRelationshipResources(productJsonApi.document.data, 'variants')" />
             </div>
           </template>
 

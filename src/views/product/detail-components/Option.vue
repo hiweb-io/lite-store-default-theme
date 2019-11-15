@@ -35,7 +35,7 @@
     <template v-else>
 
       <div v-if="optionValueMaxLength() <= 8" style="margin-left: -8px; margin-right: -8px;" :class="(!selectedOptionValue && $parent.showOptionWarning) ? 'option-not-selected' : ''">
-        <div :class="'product-detail__option__default-select ' + (optionValueMaxLength() > 3 ? 'product-detail__option__default-select--long' : '')" v-for="optionValue in optionValues" @click="selectedOptionValue = optionValue">
+        <div class="product-detail__option__default-select" :class="{ 'product-detail__option__default-select--long': optionValueMaxLength() > 3, 'disabled': restOptionValues.includes(optionValue)}" v-for="optionValue in optionValues" @click="selectValue(optionValue)">
           <div :class="'text-center product-detail__option__option-value text-center product-detail__option__option-value--default ' + (selectedOptionValue === optionValue ? 'active' : '')">
             <span>{{ optionValue }}</span>
           </div>
@@ -161,6 +161,11 @@
     text-decoration: underline;
   }
 
+  .disabled > div {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
 }
 </style>
 
@@ -188,13 +193,13 @@ export default {
 
   created() {
 
-    if (this.optionValues.includes(this.optionMinPrice().attributes.option1)) {
-      this.selectedOptionValue = this.optionMinPrice().attributes.option1;
-    }else if (this.optionValues.includes(this.optionMinPrice().attributes.option2)) {
-      this.selectedOptionValue = this.optionMinPrice().attributes.option2;
-    }else{
-      this.selectedOptionValue = this.optionMinPrice().attributes.option3;
-    }
+    // if (this.optionValues.includes(this.optionMinPrice().attributes.option1)) {
+    //   this.selectedOptionValue = this.optionMinPrice().attributes.option1;
+    // }else if (this.optionValues.includes(this.optionMinPrice().attributes.option2)) {
+    //   this.selectedOptionValue = this.optionMinPrice().attributes.option2;
+    // }else{
+    //   this.selectedOptionValue = this.optionMinPrice().attributes.option3;
+    // }
     
   },
 
@@ -229,16 +234,16 @@ export default {
 
     },
 
-    optionMinPrice(){
+    // optionMinPrice(){
 
-      let minPrice = 10000;
+    //   let minPrice = 10000;
 
-      for (let i = 0; i < this.variants.length; i++) {
-        if (this.variants[i].attributes.price < minPrice) {
-          return this.variants[i];
-        }        
-      }
-    },
+    //   for (let i = 0; i < this.variants.length; i++) {
+    //     if (this.variants[i].attributes.price < minPrice) {
+    //       return this.variants[i];
+    //     }        
+    //   }
+    // },
 
     activeNiceSelect() {
 
