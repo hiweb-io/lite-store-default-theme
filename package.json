@@ -10,7 +10,7 @@
     "@fortawesome/fontawesome-free": "^5.9.0",
     "bootstrap": "^4.3.1",
     "core-js": "^2.6.10",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "lite-store-vue-base": "file:../lite-store-vue-base",
     "popper.js": "^1.16.0",
     "sweetalert2": "^8.19.0",
